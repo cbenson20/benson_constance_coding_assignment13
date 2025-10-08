@@ -1,46 +1,165 @@
-# Getting Started with Create React App
+Assignment 12: UI Garden – Dockerize Storybook Component Library
+Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hi, I’m Constance Benson, a Full-Stack Web Development student at Red River College Polytechnic.
+This project is my UI Garden for Assignment 12, a library of reusable UI components like Buttons, Labels, Cards, Tables, and more, all built using React, TypeScript, and Styled Components, and displayed with Storybook.
 
-## Available Scripts
+The main goals of this assignment were to:
 
-In the project directory, you can run:
+- Build a clean, modular component library
+- Use Storybook for testing and documentation
+- Dockerize the setup so it can run on localhost:8083 using Nginx
 
-### `npm start`
+# Project Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open VSCode
+Go to Terminal (Terminal than go to New Terminal)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Create the project with TypeScript (replace whatever name you want to use in the place you see my name)
 
-### `npm test`
+npx create-react-app benson_constance_ui_garden --template typescript
+cd benson_constance_ui_garden
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Installs and sets up Storybook automatically in your React project.
 
-### `npm run build`
+npx storybook@latest init
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Install styling dependencies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm install styled-components
+npm install --save-dev @types/styled-components
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+After setting up, I opened the project in VS Code and started coding inside the src/components directory.
 
-### `npm run eject`
+# How I Built the Components
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Each component was created in its own folder under src/components.
+I used TypeScript for type safety, Styled Components for styling, and Storybook to visualize and test everything interactively.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Here’s the process I followed for every component:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Create the main component file (ComponentName.tsx)
+- Defined the structure using React functional components.
+  Example: The Button component includes props like text, disabled, and onClick.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Add a types file (ComponentName.types.ts)
+Defined TypeScript interfaces (like ButtonProps) for clear, reusable prop definitions.
 
-## Learn More
+Style with Styled Components
+Used Styled Components to handle all styling directly in TypeScript files.
+This kept styles isolated, readable, and reusable without external CSS files.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Add Storybook stories (ComponentName.stories.tsx)
+Created multiple stories for each component (e.g., “Default” and “Disabled” states).
+This made testing and visualizing component behavior simple and intuitive.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Add test files (ComponentName.test.tsx)
+Wrote small test files to confirm components render correctly and handle props as expected.
+
+Following this structure made each component reusable, and easy to maintain.
+
+--- Component Library ---
+
+The library includes the following components:
+Button
+Label
+Text
+Table (with TableHeader, TableRow, TableCell, and TableFooter)
+Dropdown
+RadioButton
+Img
+HeroImage
+Card
+
+Each component is designed to be customizable and consistent, ideal for building interfaces that maintain a unified look and feel across multiple projects.
+
+# Requirements
+
+Before running the project, make sure you have:
+Node.js 20 or higher
+Docker Desktop
+Git (optional, for version control)
+
+Running the Project Locally
+
+1. cd C:\Users\DELL\Desktop\benson_constance_ui_garden (the project folder)
+2. Install dependencies
+   npm install
+3. Run Storybook locally
+   npx storybook dev -p 6006
+   Then open your browser and go to:
+   http://localhost:6006
+
+You’ll see all the components displayed in Storybook.
+
+# Docker Setup
+
+Create a dockerfile in your project folder
+
+Here’s the Dockerfile used to build and run Storybook inside a container:
+
+# ---- Build stage ----
+
+FROM node:20-alpine AS build
+
+WORKDIR /benson_constance_ui_garden
+
+# Copy package files and install dependencies
+
+COPY package\*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of the project
+
+COPY . .
+
+# Build Storybook static files
+
+RUN npx storybook build
+
+# ---- Production stage ----
+
+FROM nginx:alpine
+
+# Copy Storybook static build from the build stage
+
+COPY --from=build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html
+
+EXPOSE 8083
+
+# Start Nginx server
+
+CMD ["nginx", "-g", "daemon off;"]
+
+Building and Running with Docker: Build the Docker image
+docker build -t benson_constance_ui_garden .
+
+6. Run the container
+   docker run -d -p 8083:80 --name benson_constance_ui_garden benson_constance_ui_garden
+
+What this does:
+-d runs the container in the background
+-p 8083:80 maps your computer’s port 8083 to Nginx’s port 80 inside the container
+
+Viewing the App
+Once it’s running, open your browser and visit:
+http://localhost:8083
+
+You will see your full Storybook UI Garden running inside Docker.
+
+Managing the Container
+Stop the container:
+docker stop benson_constance_ui_garden
+
+Restart it:
+docker start benson_constance_ui_garden
+
+Conclusion:
+This project helped me strengthen my understanding of component-driven development and deployment workflows.
+Through it, I learned to:
+
+- Build and document React components using Storybook
+- Use TypeScript and Styled Components for clean, scalable UI design
+- Configure Docker and Nginx for real production deployment
+
+Running everything successfully on localhost:8083 was the best part, it confirmed that the build, containerization, and deployment were all working together perfectly.
