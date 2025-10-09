@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { TableCellProps } from "../Table.types";
 
-const StyledTableCell = styled.td<TableCellProps>`
+const StyledTableCell = styled.td.withConfig({
+  shouldForwardProp: (prop) => prop !== "isHeader" && prop !== "disabled",
+})<TableCellProps>`
   padding: 12px;
   border: 1px solid #dee2e6;
   color: ${(props) => (props.disabled ? "#cccccc" : "#333333")};
@@ -21,8 +23,11 @@ export const TableCell: React.FC<TableCellProps> = ({
   disabled = false,
   isHeader = false,
 }) => {
+  // ✅ Render <th> if it's a header, otherwise <td>
+  const Element = isHeader ? "th" : "td";
+
   return (
-    <StyledTableCell disabled={disabled} isHeader={isHeader}>
+    <StyledTableCell as={Element} isHeader={isHeader} disabled={disabled}>
       {children}
     </StyledTableCell>
   );

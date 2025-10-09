@@ -25,7 +25,8 @@ describe("HeroImage Component", () => {
         disabled={true}
       />
     );
-    const heroContainer = screen.getByText("Disabled Title").closest("div");
+    const heroImg = screen.getByAltText("Disabled Hero");
+    const heroContainer = heroImg.closest("div");
     expect(heroContainer).toHaveStyle("opacity: 0.6");
   });
 });

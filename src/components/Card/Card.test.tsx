@@ -15,6 +15,8 @@ describe("Card Component", () => {
       <Card title="Disabled Card" content="Disabled Content" disabled={true} />
     );
     const card = screen.getByText("Disabled Card").closest("div");
-    expect(card).toHaveStyle("background-color: #f5f5f5");
+    expect(card?.parentElement).toHaveStyle({
+      backgroundColor: "rgb(245, 245, 245)",
+    });
   });
 });

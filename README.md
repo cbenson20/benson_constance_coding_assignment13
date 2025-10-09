@@ -36,25 +36,22 @@ After setting up, I opened the project in VS Code and started coding inside the 
 Each component was created in its own folder under src/components.
 I used TypeScript for type safety, Styled Components for styling, and Storybook to visualize and test everything interactively.
 
-Here’s the process I followed for every component:
+Process I followed for each component:
 
-- Create the main component file (ComponentName.tsx)
-- Defined the structure using React functional components.
-  Example: The Button component includes props like text, disabled, and onClick.
+Component File (ComponentName.tsx)
+Defined the structure using React functional components (e.g., Button with things like text, disabled, and onClick).
 
-Add a types file (ComponentName.types.ts)
-Defined TypeScript interfaces (like ButtonProps) for clear, reusable prop definitions.
+Types File (ComponentName.types.ts)
+Defined TypeScript interfaces to enforce type safety and clarity.
 
-Style with Styled Components
-Used Styled Components to handle all styling directly in TypeScript files.
-This kept styles isolated, readable, and reusable without external CSS files.
+Styled Components
+Handled styles directly in TypeScript files for better modularity and maintainability.
 
-Add Storybook stories (ComponentName.stories.tsx)
-Created multiple stories for each component (e.g., “Default” and “Disabled” states).
-This made testing and visualizing component behavior simple and intuitive.
+Storybook Stories (ComponentName.stories.tsx)
+Created multiple stories (Default, Hovered, Disabled) to showcase different states visually.
 
-Add test files (ComponentName.test.tsx)
-Wrote small test files to confirm components render correctly and handle props as expected.
+Test Files (ComponentName.test.tsx)
+Verified rendering, visibility, and color changes when disabled using Jest and React Testing Library.
 
 Following this structure made each component reusable, and easy to maintain.
 
@@ -78,7 +75,6 @@ Each component is designed to be customizable and consistent, ideal for building
 Before running the project, make sure you have:
 Node.js 20 or higher
 Docker Desktop
-Git (optional, for version control)
 
 Running the Project Locally
 
@@ -88,9 +84,22 @@ Running the Project Locally
 3. Run Storybook locally
    npx storybook dev -p 6006
    Then open your browser and go to:
-   http://localhost:6006
+   http://localhost:6006, You’ll see all the components displayed in Storybook.
 
-You’ll see all the components displayed in Storybook.
+# Testing
+
+This project uses Jest and React Testing Library (included with Create React App).
+
+Each component has a file like:
+src/components/ComponentName/ComponentName.test.tsx
+
+- Tests cover at least two things per component:
+
+* The component renders and is visible
+* The disabled state changes styling (e.g., background color / opacity)
+
+Run all tests:
+npm test -- --watchAll=false
 
 # Docker Setup
 
@@ -131,11 +140,13 @@ EXPOSE 8083
 
 CMD ["nginx", "-g", "daemon off;"]
 
-Building and Running with Docker: Build the Docker image
-docker build -t benson_constance_ui_garden .
+# Building Docker: Build the Docker image
 
-6. Run the container
-   docker run -d -p 8083:80 --name benson_constance_ui_garden benson_constance_ui_garden
+--- docker build -t benson_constance_ui_garden .
+
+# Run the container
+
+docker run -d -p 8083:80 --name benson_constance_coding_assignment12 benson_constance_ui_garden
 
 What this does:
 -d runs the container in the background
@@ -143,11 +154,9 @@ What this does:
 
 Viewing the App
 Once it’s running, open your browser and visit:
-http://localhost:8083
+http://localhost:8083, You will see your full Storybook UI Garden running inside Docker.
 
-You will see your full Storybook UI Garden running inside Docker.
-
-Managing the Container
+--- Managing the Container ---
 Stop the container:
 docker stop benson_constance_ui_garden
 
