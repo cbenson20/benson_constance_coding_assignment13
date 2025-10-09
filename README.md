@@ -105,44 +105,41 @@ npm test -- --watchAll=false
 
 Create a dockerfile in your project folder
 
-Here’s the Dockerfile used to build and run Storybook inside a container:
+- Here’s the Dockerfile used to build and run Storybook inside a container:
 
-# ---- Build stage ----
+# ---- This will Build React App ----
 
-FROM node:20-alpine AS build
-
+FROM node:20-alpine AS react_build
 WORKDIR /benson_constance_ui_garden
-
-# Copy package files and install dependencies
-
 COPY package\*.json ./
-RUN npm install --legacy-peer-deps
 
-# Copy the rest of the project
+- RUN npm install --legacy-peer-deps
+  COPY . .
+  RUN npm run build
 
-COPY . .
+# ---- This will Build Storybook ----
 
-# Build Storybook static files
+FROM node:20-alpine AS storybook_build
+WORKDIR /benson_constance_ui_garden
+COPY package\*.json ./
 
-RUN npx storybook build
+- RUN npm install --legacy-peer-deps
+- COPY . .
+  RUN npx storybook build
 
-# ---- Production stage ----
+# ----This is the Production (Nginx) ----
 
 FROM nginx:alpine
+WORKDIR /benson_constance_ui_garden
+COPY --from=react_build /benson_constance_ui_garden/build /usr/share/nginx/html/react
+COPY --from=storybook_build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html/storybook
 
-# Copy Storybook static build from the build stage
-
-COPY --from=build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html
-
-EXPOSE 8083
-
-# Start Nginx server
-
-CMD ["nginx", "-g", "daemon off;"]
+- EXPOSE 8083
+  CMD ["nginx", "-g", "daemon off;"]
 
 # Building Docker: Build the Docker image
 
---- docker build -t benson_constance_ui_garden .
+- docker build -t benson_constance_ui_garden .
 
 # Run the container
 

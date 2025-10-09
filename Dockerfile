@@ -1,23 +1,41 @@
-# ---- Build stage ----
-FROM node:20-alpine AS build
-
+# ---- This will Build React App ----
+FROM node:20-alpine AS react_build
 WORKDIR /benson_constance_ui_garden
 
-# Copy package files and install dependencies (force peer deps resolution)
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of the project
+# Copy source code and build React app
 COPY . .
+RUN npm run build
 
-# Build static Storybook files
+
+# ---- This will Build Storybook ----
+FROM node:20-alpine AS storybook_build
+WORKDIR /benson_constance_ui_garden
+
+# Copy package files and install dependencies again for isolation
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy all project files and build Storybook static site
+COPY . .
 RUN npx storybook build
 
-# ---- Production stage ----
+
+# ---- This is the Production (Nginx) ----
 FROM nginx:alpine
+WORKDIR /benson_constance_ui_garden
 
-# Copy built Storybook files from the previous stage
-COPY --from=build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html
+# Copy both builds into Nginx html folder
+# React app:/usr/share/nginx/html/react
+# Storybook:/usr/share/nginx/html/storybook
+COPY --from=react_build /benson_constance_ui_garden/build /usr/share/nginx/html/react
+COPY --from=storybook_build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html/storybook
 
+# Expose port 8083
 EXPOSE 8083
+
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
