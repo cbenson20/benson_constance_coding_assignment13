@@ -12,7 +12,7 @@ describe("TableCell Component", () => {
             <TableCell>Test Cell</TableCell>
           </tr>
         </tbody>
-      </table>
+      </table>,
     );
     const cell = screen.getByText("Test Cell");
     expect(cell).toBeVisible();
@@ -26,7 +26,7 @@ describe("TableCell Component", () => {
             <TableCell disabled={true}>Disabled Cell</TableCell>
           </tr>
         </tbody>
-      </table>
+      </table>,
     );
     const cell = screen.getByText("Disabled Cell");
     expect(cell).toHaveStyle("color: #cccccc");

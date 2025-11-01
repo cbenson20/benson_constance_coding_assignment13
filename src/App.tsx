@@ -3,13 +3,7 @@ import styled from "styled-components";
 import { Button } from "./components/Button";
 import { Label } from "./components/Label";
 import { Text } from "./components/Text";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableFooter,
-} from "./components/Table";
+import { Table, TableHeader, TableRow, TableCell, TableFooter } from "./components/Table";
 import { Dropdown } from "./components/Dropdown";
 import { RadioButton } from "./components/RadioButton";
 import { Img } from "./components/Img";
@@ -115,11 +109,7 @@ function App() {
       <Section>
         <h2>Images</h2>
         <ComponentGrid>
-          <Img
-            src="https://via.placeholder.com/300x200"
-            alt="Normal Image"
-            width="300px"
-          />
+          <Img src="https://via.placeholder.com/300x200" alt="Normal Image" width="300px" />
           <Img
             src="https://via.placeholder.com/300x200"
             alt="Disabled Image"

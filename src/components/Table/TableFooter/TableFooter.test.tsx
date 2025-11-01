@@ -12,7 +12,7 @@ describe("TableFooter Component", () => {
             <td>Test Footer</td>
           </tr>
         </TableFooter>
-      </table>
+      </table>,
     );
     const footer = screen.getByText("Test Footer");
     expect(footer).toBeVisible();
@@ -26,7 +26,7 @@ describe("TableFooter Component", () => {
             <td>Disabled Footer</td>
           </tr>
         </TableFooter>
-      </table>
+      </table>,
     );
     const footer = screen.getByText("Disabled Footer").closest("tfoot");
     expect(footer).toHaveStyle("background-color: #f5f5f5");

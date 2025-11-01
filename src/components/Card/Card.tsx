@@ -14,9 +14,7 @@ const CardContainer = styled.div<{ disabled?: boolean }>`
 
   &:hover {
     box-shadow: ${(props) =>
-      props.disabled
-        ? "0 2px 4px rgba(0,0,0,0.1)"
-        : "0 4px 8px rgba(0,0,0,0.2)"};
+      props.disabled ? "0 2px 4px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.2)"};
     transform: ${(props) => (props.disabled ? "none" : "translateY(-2px)")};
   }
 

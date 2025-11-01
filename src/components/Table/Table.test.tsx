@@ -12,7 +12,7 @@ describe("Table Components", () => {
             <TableCell>Test Cell</TableCell>
           </TableRow>
         </tbody>
-      </Table>
+      </Table>,
     );
     const table = screen.getByText("Test Cell");
     expect(table).toBeVisible();
@@ -26,7 +26,7 @@ describe("Table Components", () => {
             <TableCell>Test Cell</TableCell>
           </TableRow>
         </tbody>
-      </Table>
+      </Table>,
     );
     const table = screen.getByRole("table");
     expect(table).toHaveStyle("opacity: 0.6");

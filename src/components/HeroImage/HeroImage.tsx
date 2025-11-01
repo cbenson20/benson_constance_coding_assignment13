@@ -61,9 +61,7 @@ export const HeroImage: React.FC<HeroImageProps> = ({
       <HeroImg src={src} alt={alt} disabled={disabled} />
       <HeroContent disabled={disabled}>
         <HeroTitle disabled={disabled}>{title}</HeroTitle>
-        {subtitle && (
-          <HeroSubtitle disabled={disabled}>{subtitle}</HeroSubtitle>
-        )}
+        {subtitle && <HeroSubtitle disabled={disabled}>{subtitle}</HeroSubtitle>}
       </HeroContent>
     </HeroContainer>
   );

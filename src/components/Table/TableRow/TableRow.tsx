@@ -18,9 +18,6 @@ const StyledTableRow = styled.tr<TableRowProps>`
   opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
-export const TableRow: React.FC<TableRowProps> = ({
-  children,
-  disabled = false,
-}) => {
+export const TableRow: React.FC<TableRowProps> = ({ children, disabled = false }) => {
   return <StyledTableRow disabled={disabled}>{children}</StyledTableRow>;
 };

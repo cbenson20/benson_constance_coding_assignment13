@@ -12,7 +12,7 @@ describe("TableRow Component", () => {
             <td>Test Row Cell</td>
           </TableRow>
         </tbody>
-      </table>
+      </table>,
     );
     const row = screen.getByText("Test Row Cell");
     expect(row).toBeVisible();
@@ -26,7 +26,7 @@ describe("TableRow Component", () => {
             <td>Disabled Row Cell</td>
           </TableRow>
         </tbody>
-      </table>
+      </table>,
     );
     const row = screen.getByText("Disabled Row Cell").closest("tr");
     expect(row).toHaveStyle("background-color: #f9f9f9");

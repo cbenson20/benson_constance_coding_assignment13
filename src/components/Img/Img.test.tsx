@@ -11,13 +11,7 @@ describe("Img Component", () => {
   });
 
   test("changes opacity when disabled", () => {
-    render(
-      <Img
-        src="https://via.placeholder.com/300x200"
-        alt="Disabled Image"
-        disabled={true}
-      />
-    );
+    render(<Img src="https://via.placeholder.com/300x200" alt="Disabled Image" disabled={true} />);
     const image = screen.getByAltText("Disabled Image");
     expect(image).toHaveStyle("opacity: 0.6");
   });

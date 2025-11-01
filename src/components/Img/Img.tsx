@@ -16,20 +16,6 @@ const StyledImage = styled.img<ImgProps>`
   }
 `;
 
-export const Img: React.FC<ImgProps> = ({
-  src,
-  alt,
-  disabled = false,
-  width,
-  height,
-}) => {
-  return (
-    <StyledImage
-      src={src}
-      alt={alt}
-      disabled={disabled}
-      width={width}
-      height={height}
-    />
-  );
+export const Img: React.FC<ImgProps> = ({ src, alt, disabled = false, width, height }) => {
+  return <StyledImage src={src} alt={alt} disabled={disabled} width={width} height={height} />;
 };

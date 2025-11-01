@@ -14,11 +14,7 @@ const StyledLabel = styled.label<LabelProps>`
   }
 `;
 
-export const Label: React.FC<LabelProps> = ({
-  text,
-  disabled = false,
-  htmlFor,
-}) => {
+export const Label: React.FC<LabelProps> = ({ text, disabled = false, htmlFor }) => {
   return (
     <StyledLabel disabled={disabled} htmlFor={htmlFor} text={text}>
       {text}

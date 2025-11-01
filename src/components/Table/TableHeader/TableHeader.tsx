@@ -8,9 +8,6 @@ const StyledTableHeader = styled.thead<TableHeaderProps>`
   cursor: ${(props) => (props.disabled ? "not-allowed" : "default")};
 `;
 
-export const TableHeader: React.FC<TableHeaderProps> = ({
-  children,
-  disabled = false,
-}) => {
+export const TableHeader: React.FC<TableHeaderProps> = ({ children, disabled = false }) => {
   return <StyledTableHeader disabled={disabled}>{children}</StyledTableHeader>;
 };

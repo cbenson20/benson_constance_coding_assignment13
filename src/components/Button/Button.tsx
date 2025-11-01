@@ -6,8 +6,7 @@ const StyledButton = styled.button<ButtonProps>`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: ${(props) =>
-    props.disabled ? "#cccccc" : props.backgroundColor || "#007bff"};
+  background-color: ${(props) => (props.disabled ? "#cccccc" : props.backgroundColor || "#007bff")};
   color: ${(props) => (props.disabled ? "#666666" : "#ffffff")};
   font-size: 16px;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
@@ -16,11 +15,7 @@ const StyledButton = styled.button<ButtonProps>`
 
   &:hover {
     background-color: ${(props) =>
-      props.disabled
-        ? "#cccccc"
-        : props.backgroundColor
-        ? "#0056b3"
-        : "#0056b3"};
+      props.disabled ? "#cccccc" : props.backgroundColor ? "#0056b3" : "#0056b3"};
   }
 
   @media (max-width: 768px) {

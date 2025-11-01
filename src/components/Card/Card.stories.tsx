@@ -17,8 +17,7 @@ const Template: StoryFn<CardProps> = (args) => <Card {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   title: "Card Title",
-  content:
-    "This is the card content with some sample text to demonstrate how it looks.",
+  content: "This is the card content with some sample text to demonstrate how it looks.",
   imageUrl: "https://via.placeholder.com/300x200",
   disabled: false,
 };

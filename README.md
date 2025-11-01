@@ -1,171 +1,86 @@
-Assignment 12: UI Garden – Dockerize Storybook Component Library
-Overview
+Assignment 13 – Code Quality and Build Checks
 
 Hi, I’m Constance Benson, a Full-Stack Web Development student at Red River College Polytechnic.
-This project is my UI Garden for Assignment 12, a library of reusable UI components like Buttons, Labels, Cards, Tables, and more, all built using React, TypeScript, and Styled Components, and displayed with Storybook.
+This project builds on my UI Garden from Assignment 12, the one that showcased reusable UI components (like Buttons, Cards, Labels, and Tables).
 
-The main goals of this assignment were to:
+# In this assignment, I focused on something different:
 
-- Build a clean, modular component library
-- Use Storybook for testing and documentation
-- Dockerize the setup so it can run on localhost:8083 using Nginx
+making sure every piece of code that goes into the project is clean, consistent, and working before it’s ever committed or deployed.
+That’s what “Code Quality and Build Checks” means.
 
-# Project Setup
+# What This Project Adds
 
-Open VSCode
-Go to Terminal (Terminal than go to New Terminal)
+In Assignment 12, the goal was building.
+In Assignment 13, the goal is protecting the build,by adding tools that automatically check and test the code.
 
-# Create the project with TypeScript (replace whatever name you want to use in the place you see my name)
+Here’s the Tools i added and what each one does:
 
-npx create-react-app benson_constance_ui_garden --template typescript
-cd benson_constance_ui_garden
+**Prettier**: Automatically formats code so everything looks consistent,same spacing, quotes, and indentation everywhere.
+**ESLint**: Scans the code for mistakes or “bad habits” and helps me follow React + TypeScript best practices.
+**Husky**: Runs checks before I commit changes, so broken code never gets saved into Git.
+**GitHub Actions**: Re-runs all the checks online whenever I push my code, to make sure everything still works on GitHub.
+**Docker**: Packages the whole app so it can run exactly the same on any computer, like a self-contained box.
 
-# Installs and sets up Storybook automatically in your React project.
+# How the Pre-Commit Checks Work
 
-npx storybook@latest init
+Before any code is committed, Husky automatically runs three checks in order:
 
-# Install styling dependencies
+npm run format:check
+npm run lint
+npm test
 
-npm install styled-components
-npm install --save-dev @types/styled-components
+Here’s what happens behind the scenes:
 
-After setting up, I opened the project in VS Code and started coding inside the src/components directory.
+Prettier checks that my code is neatly formatted.
+If something’s off, it stops me and tells me to fix it.
 
-# How I Built the Components
+ESLint scans for logic or syntax errors.
+For example, if I forgot to import React or typed a variable name wrong, it catches it.
 
-Each component was created in its own folder under src/components.
-I used TypeScript for type safety, Styled Components for styling, and Storybook to visualize and test everything interactively.
+Tests run automatically using Jest and React Testing Library to make sure components behave correctly.
 
-Process I followed for each component:
+If any of these steps fail, Husky stops the commit.
+That means no messy or broken code ever gets pushed to GitHub.
 
-Component File (ComponentName.tsx)
-Defined the structure using React functional components (e.g., Button with things like text, disabled, and onClick).
+# Continuous Integration (GitHub Actions)
 
-Types File (ComponentName.types.ts)
-Defined TypeScript interfaces to enforce type safety and clarity.
+Once my code passes all local checks and I push it to GitHub,
+GitHub Actions kicks in automatically using a file called:
+.github/workflows/ci.yml
 
-Styled Components
-Handled styles directly in TypeScript files for better modularity and maintainability.
+Think of this file as GitHub’s “to-do list.”
+Every time I push or open a pull request, GitHub:
 
-Storybook Stories (ComponentName.stories.tsx)
-Created multiple stories (Default, Hovered, Disabled) to showcase different states visually.
+Installs Node.js and all dependencies
 
-Test Files (ComponentName.test.tsx)
-Verified rendering, visibility, and color changes when disabled using Jest and React Testing Library.
+Runs npm run format:check
 
-Following this structure made each component reusable, and easy to maintain.
+Runs npm run lint
 
---- Component Library ---
+Runs all tests with npm test
 
-The library includes the following components:
-Button
-Label
-Text
-Table (with TableHeader, TableRow, TableCell, and TableFooter)
-Dropdown
-RadioButton
-Img
-HeroImage
-Card
+Builds the project for production
 
-Each component is designed to be customizable and consistent, ideal for building interfaces that maintain a unified look and feel across multiple projects.
+If everything passes, the workflow shows a green check mark.
+If something breaks, GitHub flags it right away, so I can fix it before merging.
 
-# Requirements
+This is called “CI Pipeline”
 
-Before running the project, make sure you have:
-Node.js 20 or higher
-Docker Desktop
+# Running the Project in Docker
 
-Running the Project Locally
+Docker makes it easy for anyone to run this project on their computer without installing Node, React, or any dependencies.
+Everything is already inside the container.
 
-1. cd C:\Users\DELL\Desktop\benson_constance_ui_garden (the project folder)
-2. Install dependencies
-   npm install
-3. Run Storybook locally
-   npx storybook dev -p 6006
-   Then open your browser and go to:
-   http://localhost:6006, You’ll see all the components displayed in Storybook.
+# NOTE: Replace your project name with my my name
 
-# Testing
+1. Build the Docker image
+   docker build -t benson_constance_coding_assignment13 .
 
-This project uses Jest and React Testing Library (included with Create React App).
+2. Run the container
+   docker run -p 8018:80 --name benson_constance_coding_assignment13 benson_constance_coding_assignment13
 
-Each component has a file like:
-src/components/ComponentName/ComponentName.test.tsx
+3. Open the app
 
-- Tests cover at least two things per component:
-
-* The component renders and is visible
-* The disabled state changes styling (e.g., background color / opacity)
-
-Run all tests:
-npm test -- --watchAll=false
-
-# Docker Setup
-
-Create a dockerfile in your project folder
-
-- Here’s the Dockerfile used to build and run Storybook inside a container:
-
-# ---- This will Build React App ----
-
-FROM node:20-alpine AS react_build
-WORKDIR /benson_constance_ui_garden
-COPY package\*.json ./
-
-- RUN npm install --legacy-peer-deps
-  COPY . .
-  RUN npm run build
-
-# ---- This will Build Storybook ----
-
-FROM node:20-alpine AS storybook_build
-WORKDIR /benson_constance_ui_garden
-COPY package\*.json ./
-
-- RUN npm install --legacy-peer-deps
-- COPY . .
-  RUN npx storybook build
-
-# ----This is the Production (Nginx) ----
-
-FROM nginx:alpine
-WORKDIR /benson_constance_ui_garden
-COPY --from=react_build /benson_constance_ui_garden/build /usr/share/nginx/html/react
-COPY --from=storybook_build /benson_constance_ui_garden/storybook-static /usr/share/nginx/html/storybook
-
-- EXPOSE 8083
-  CMD ["nginx", "-g", "daemon off;"]
-
-# Building Docker: Build the Docker image
-
-- docker build -t benson_constance_ui_garden .
-
-# Run the container
-
-docker run -d -p 8083:80 --name benson_constance_coding_assignment12 benson_constance_ui_garden
-
-What this does:
--d runs the container in the background
--p 8083:80 maps your computer’s port 8083 to Nginx’s port 80 inside the container
-
-Viewing the App
-Once it’s running, open your browser and visit:
-http://localhost:8083, You will see your full Storybook UI Garden running inside Docker.
-
---- Managing the Container ---
-Stop the container:
-docker stop benson_constance_ui_garden
-
-Restart it:
-docker start benson_constance_ui_garden
-
-Conclusion:
-This project helped me strengthen my understanding of component-driven development and deployment workflows.
-Through it, I learned to:
-
-- Build and document React components using Storybook
-- Use TypeScript and Styled Components for clean, scalable UI design
-- Configure Docker and Nginx for real production deployment
-
-Running everything successfully on localhost:8083 was the best part, it confirmed that the build, containerization, and deployment were all working together perfectly.
+Visit http://localhost:8018
+in your browser.
+You’ll see the same app running just like it did in Assignment 12 — only now, it’s been checked, tested, and verified automatically.

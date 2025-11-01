@@ -12,7 +12,7 @@ describe("TableHeader Component", () => {
             <th>Test Header</th>
           </tr>
         </TableHeader>
-      </table>
+      </table>,
     );
     const header = screen.getByText("Test Header");
     expect(header).toBeVisible();
@@ -26,7 +26,7 @@ describe("TableHeader Component", () => {
             <th>Disabled Header</th>
           </tr>
         </TableHeader>
-      </table>
+      </table>,
     );
     const header = screen.getByText("Disabled Header").closest("thead");
     expect(header).toHaveStyle("background-color: #f5f5f5");

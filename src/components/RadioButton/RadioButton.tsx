@@ -19,8 +19,7 @@ const StyledRadio = styled.span<{ checked?: boolean; disabled?: boolean }>`
   width: 20px;
   height: 20px;
   border: 2px solid
-    ${(props) =>
-      props.disabled ? "#cccccc" : props.checked ? "#007bff" : "#666666"};
+    ${(props) => (props.disabled ? "#cccccc" : props.checked ? "#007bff" : "#666666")};
   border-radius: 50%;
   background-color: ${(props) => (props.checked ? "#007bff" : "transparent")};
   position: relative;
@@ -59,12 +58,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
 
   return (
     <RadioContainer disabled={disabled}>
-      <HiddenRadio
-        checked={checked}
-        disabled={disabled}
-        onChange={handleChange}
-        name={name}
-      />
+      <HiddenRadio checked={checked} disabled={disabled} onChange={handleChange} name={name} />
       <StyledRadio checked={checked} disabled={disabled} />
       <RadioLabel disabled={disabled}>{label}</RadioLabel>
     </RadioContainer>

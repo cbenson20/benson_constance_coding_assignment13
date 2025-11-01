@@ -11,9 +11,7 @@ describe("Card Component", () => {
   });
 
   test("changes background color when disabled", () => {
-    render(
-      <Card title="Disabled Card" content="Disabled Content" disabled={true} />
-    );
+    render(<Card title="Disabled Card" content="Disabled Content" disabled={true} />);
     const card = screen.getByText("Disabled Card").closest("div");
     expect(card?.parentElement).toHaveStyle({
       backgroundColor: "rgb(245, 245, 245)",

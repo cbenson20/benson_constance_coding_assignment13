@@ -32,11 +32,7 @@ const StyledText = styled.p<TextProps>`
   }
 `;
 
-export const Text: React.FC<TextProps> = ({
-  content,
-  disabled = false,
-  size = "medium",
-}) => {
+export const Text: React.FC<TextProps> = ({ content, disabled = false, size = "medium" }) => {
   return (
     <StyledText disabled={disabled} size={size} content={content}>
       {content}
