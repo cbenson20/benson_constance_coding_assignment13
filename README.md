@@ -64,6 +64,10 @@ Builds the project for production
 If everything passes, the workflow shows a green check mark.
 If something breaks, GitHub flags it right away, so I can fix it before merging.
 
+git add .
+git commit -m "testing CI workflow"
+git push origin main
+
 This is called “CI Pipeline”
 
 # Running the Project in Docker
